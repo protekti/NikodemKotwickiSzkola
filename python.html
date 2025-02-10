@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyjaśnienie kodu Python</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .code-section {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wyjaśnienie kodu źródłowego w Pythonie</h1>
+
+    <div class="code-section">
+        <h2>Linia 1</h2>
+        <p><code>print("*** Program powitalny ***")</code></p>
+        <p>Ta linia wyświetla na ekranie tekst <strong>„*** Program powitalny ***”</strong>. Funkcja <code>print()</code> służy do wypisywania tekstu.</p>
+    </div>
+
+    <div class="code-section">
+        <h2>Linia 2</h2>
+        <p><code>login = input("Podaj nazwę użytkownika: ")</code></p>
+        <p>Program wyświetla komunikat <strong>„Podaj nazwę użytkownika:”</strong>, a następnie czeka, aż użytkownik wpisze tekst. Wprowadzona wartość jest przypisywana do zmiennej <code>login</code>.</p>
+    </div>
+
+    <div class="code-section">
+        <h2>Linia 3</h2>
+        <p><code>print()</code></p>
+        <p>Wyświetla pustą linię, aby oddzielić teksty na ekranie.</p>
+    </div>
+
+    <div class="code-section">
+        <h2>Linia 4</h2>
+        <p><code>print("Użytkownik " + login + " został programistą języka Python")</code></p>
+        <p>Program łączy tekst <strong>„Użytkownik”</strong> oraz zawartość zmiennej <code>login</code> z tekstem <strong>„został programistą języka Python”</strong> i wyświetla całość.</p>
+    </div>
+
+    <div class="code-section">
+        <h2>Linia 5</h2>
+        <p><code>print()</code></p>
+        <p>Ponownie wyświetla pustą linię, aby zakończyć program w bardziej przejrzysty sposób.</p>
+    </div>
+
+    <h2>Cały kod do skopiowania</h2>
+    <pre>
+print("*** Program powitalny ***")
+login = input("Podaj nazwę użytkownika: ")
+print()
+print("Użytkownik " + login + " został programistą języka Python")
+print()
+    </pre>
+</body>
+</html>
