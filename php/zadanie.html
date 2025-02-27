@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="zadanie.php" method="post">
+        <label>Nazwisko: </label>
+        <input type="text" id="nazwisko" name="nazwisko" placeholder="Wpisz nazwisko" required><br>
+        Wiek: <input type="number" id="wiek" name="wiek" value="100"><br>
+        Obecny: <input type="checkbox" id="ch1" name="obecny"><br>
+        Płeć<br>
+        kobieta<input type="radio" name="plec" value="kobieta"><br>
+        mężczyzna<input type="radio" name="plec" value="mężczyzna"><br>
+
+        <select name="kolor" id="kolor">
+            <option value="czerwony">Czerwony</option>
+            <option value="zielony">Zielony</option>
+            <option value="niebieski">Niebieski</option>
+        </select>
+
+        <textarea name="opis"></textarea>
+        <br>
+        <input type="submit" value="Wyślij">
+        <input type="reset" value="Czyść dane">
+        <br>
+    </form>
+</body>
+</html>
