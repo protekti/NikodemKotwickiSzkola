@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Home Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(45deg, #000000, rgb(49, 49, 49));
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+            height: 100vh;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            margin-top: 20vh;
+            font-size: 4em;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .card {
+            margin-top: 30px;
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .btn-primary {
+            background-color: #2575fc;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #6a11cb;
+        }
+
+        .floating-dots {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .dot {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        .line {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1); /* Light line color */
+            height: 1px; /* Line thickness */
+            z-index: -1; /* Make sure lines are behind the dots but above the background */
+            border-radius: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Szczur Browser</h1>
+
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Crazygames</h5>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='https://www.crazygames.com'">Visit</button>
+        </div>
+    </div>
+
+    <!-- Floating Dots Animation -->
+    <div class="floating-dots" id="floating-dots"></div>
+    <div class="floating-lines" id="floating-lines"></div>
+
+    <script>
+        const numDots = 150;
+        const dotContainer = document.getElementById('floating-dots');
+        const lineContainer = document.getElementById('floating-lines');
+        const dots = [];
+        const speed = 1; // Dot movement speed (adjust this for faster/slower movement)
+
+        // Create the dots
+        for (let i = 0; i < numDots; i++) {
+            let dot = document.createElement('div');
+            dot.classList.add('dot');
+            dot.style.width = `${Math.random() * 2 + 5}px`;
+            dot.style.height = dot.style.width; // Make them circular
+            dot.x = Math.random() * window.innerWidth;
+            dot.y = Math.random() * window.innerHeight;
+            dot.vx = (Math.random() - 0.5) * speed; // Horizontal velocity
+            dot.vy = (Math.random() - 0.5) * speed; // Vertical velocity
+            dot.style.left = `${dot.x}px`;
+            dot.style.top = `${dot.y}px`;
+            dotContainer.appendChild(dot);
+            dots.push(dot);
+        }
+
+        // Function to get distance between two points
+        function getDistance(dot1, dot2) {
+            const dx = dot1.x - dot2.x;
+            const dy = dot1.y - dot2.y;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        // Function to draw a line between two dots
+        function drawLine(dot1, dot2) {
+            const x1 = dot1.x;
+            const y1 = dot1.y;
+            const x2 = dot2.x;
+            const y2 = dot2.y;
+
+            const line = document.createElement('div');
+            line.classList.add('line');
+
+            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+            const length = getDistance(dot1, dot2);
+
+            line.style.transformOrigin = '0 0';
+            line.style.transform = `rotate(${angle}deg)`;
+            line.style.width = `${length}px`;
+            line.style.top = `${y1}px`;
+            line.style.left = `${x1}px`;
+
+            lineContainer.appendChild(line);
+        }
+
+        // Update dots positions and lines
+        function update() {
+            lineContainer.innerHTML = ''; // Clear previous lines
+
+            dots.forEach(dot => {
+                let closestDot = null;
+                let minDistance = Infinity;
+
+                // Move the dot based on its velocity
+                dot.x += dot.vx;
+                dot.y += dot.vy;
+
+                // Keep dots within the window bounds
+                if (dot.x < 0 || dot.x > window.innerWidth) {
+                    dot.vx = -dot.vx; // Reverse horizontal direction
+                }
+                if (dot.y < 0 || dot.y > window.innerHeight) {
+                    dot.vy = -dot.vy; // Reverse vertical direction
+                }
+
+                dot.style.left = `${dot.x}px`;
+                dot.style.top = `${dot.y}px`;
+
+                // Find the closest dot
+                dots.forEach(otherDot => {
+                    if (dot !== otherDot) {
+                        const distance = getDistance(dot, otherDot);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            closestDot = otherDot;
+                        }
+                    }
+                });
+
+                // Draw line to closest dot
+                if (closestDot) {
+                    drawLine(dot, closestDot);
+                }
+            });
+
+            requestAnimationFrame(update); // Call update for the next frame
+        }
+
+        update(); // Start the animation
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</body>
+</html>
