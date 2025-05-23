@@ -1,9 +1,38 @@
 import sys
 import os
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QPushButton
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QPushButton, QFileDialog, QProgressBar, QLabel
 from PyQt6.QtWebEngineWidgets import QWebEngineView
-from PyQt6.QtCore import QUrl
-from PyQt6.QtNetwork import QNetworkProxy, QNetworkProxyFactory
+from PyQt6.QtCore import QUrl, Qt, QTimer
+from PyQt6.QtNetwork import QNetworkProxy
+from pathlib import Path
+
+class DownloadPopup(QWidget):
+    def __init__(self, filename, parent=None):
+        super().__init__(parent)
+        self.setFixedSize(300, 100)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.Popup)
+        self.setStyleSheet("background-color: #313131; border: 1px solid gray; padding: 10px;")
+
+        layout = QVBoxLayout()
+        self.label = QLabel(f"Downloading: {filename}")
+        self.progress = QProgressBar()
+        self.progress.setValue(0)
+
+        layout.addWidget(self.label)
+        layout.addWidget(self.progress)
+        self.setLayout(layout)
+
+        # Center within parent
+        if parent:
+            self.move(
+                parent.frameGeometry().width() // 2 - self.width() // 2,
+                parent.frameGeometry().height() // 2 - self.height() // 2,
+            )
+
+    def update_progress(self, received, total):
+        if total > 0:
+            percent = int((received / total) * 100)
+            self.progress.setValue(percent)
 
 class WebBrowser(QMainWindow):
     def __init__(self):
@@ -16,6 +45,9 @@ class WebBrowser(QMainWindow):
 
         # Web browser view
         self.browser = QWebEngineView(self)
+
+        profile = self.browser.page().profile()
+        profile.downloadRequested.connect(self.on_download_requested)
 
         # Set the default page to a local HTML file in the same directory
         script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -58,7 +90,7 @@ class WebBrowser(QMainWindow):
 
     def setup_proxy(self):
         # Set the proxy settings to point to the proxy server
-        proxy = QNetworkProxy(QNetworkProxy.ProxyType.HttpProxy, "79.186.155.164", 8888)
+        proxy = QNetworkProxy(QNetworkProxy.ProxyType.HttpProxy, "79.186.48.140", 8888)
         QNetworkProxy.setApplicationProxy(proxy)
 
         # Enable Qt network debugging (optional, for troubleshooting)
@@ -85,7 +117,45 @@ class WebBrowser(QMainWindow):
         local_file = os.path.join(script_dir, "homepage.html")
         self.browser.setUrl(QUrl.fromLocalFile(local_file))
 
+    def on_download_requested(self, download):
+        filename = download.downloadFileName()
+        path, _ = QFileDialog.getSaveFileName(self, "Save File", str(Path.home() / "Downloads" / filename))
+        if path:
+            directory = os.path.dirname(path)
+            file = os.path.basename(path)
+            download.setDownloadDirectory(directory)
+            download.setDownloadFileName(file)
+            download.accept()
+
+            # Show download popup
+            popup = DownloadPopup(file, parent=self)
+            popup.show()
+
+            # Timer to update progress manually
+            timer = QTimer(self)
+            timer.setInterval(200)  # every 200 ms
+
+            def update_progress():
+                if download.state() == download.DownloadState.DownloadCompleted:
+                    cleanup()
+                else:
+                    received = download.receivedBytes()
+                    total = download.totalBytes()
+                    popup.update_progress(received, total)
+
+            def cleanup():
+                timer.stop()
+                popup.progress.setValue(100)
+                popup.label.setText("Download complete")
+                QTimer.singleShot(2000, popup.close)
+
+            timer.timeout.connect(update_progress)
+            timer.start()
+
+
 if __name__ == "__main__":
+    os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--proxy-server=http://79.186.37.10:8888"
+
     app = QApplication(sys.argv)
     window = WebBrowser()
     window.show()
