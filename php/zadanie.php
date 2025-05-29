@@ -1,21 +1,45 @@
 <?php
-    if(!isset($_POST['wiek'])){
-        echo "Formularz nie został prawidłowo wysłany";
-        exit();
-    }
-    if(empty($_POST['wiek'] || empty($_POST['nazwisko']))){
-        echo "Brak danych";
-        exit();
-    }
-    
-    if(isset($_POST['obecny'])) $obecny=$_POST['obecny'];
-    else $obecny='nie zaznaczono';
-    if(isset($_POST['plec'])) $plec=$_POST['plec'];
-    else $obecny='nie zaznaczono';
+class dwieliczby
+{
+    private $a;
+    private $b;
 
-    $wiek = $_POST['wiek'];
-    $nazwisko = $_POST['nazwisko'];
-    $kolor = $_POST['kolor'];
-    $opis = $_POST['opis'];
-    echo "Wiek=$wiek<br>Nazwisko=$nazwisko<br>Kolor=$kolor<br>Opis=$opis<br>Obecny=$obecny<br>Plec=$plec";
+    function _construct($p1, $p2)
+    {
+        $this->a=$p1;
+        $this->b=$p2;
+    }
+
+    function suma()
+    {
+        return $this->a+$this->b;
+    }
+
+    function getA()
+    {
+        return $this->a;
+    }
+
+    function getB()
+    {
+        return $this->b;
+    }
+
+    function setA($ile)
+    {
+        $this->a=$ile;
+    }
+}
+
+$b=new dwieliczby (5,7);
+$b2=new dwieliczby (10,11);
+echo "<br>".$b->suma();
+//echo "<br>".$b->a; // brak dostepu
+echo "<br>".$b->getA();
+echo "<br>".$b2->getB()."<br>";
+echo var_dump($b)."<br>";
+echo var_dump($b2)."<br>";
+$b->setA(100);
+echo $b->getA();
+echo "<br>".$b->suma();
 ?>
