@@ -1,113 +1,74 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Europa w XVII wieku - III dział</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.8;
-            margin: 20px;
-            background-color: #f4f4f9;
-        }
-        h1 {
-            text-align: center;
-            color: #003366;
-        }
-        .section {
-            margin: 20px 0;
-            padding: 15px;
-            border: 2px solid #cccccc;
-            border-radius: 8px;
-            background-color: #ffffff;
-        }
-        .section h2 {
-            color: #0066cc;
-        }
-        .important {
-            font-weight: bold;
-            color: #cc0000;
-        }
-        ul {
-            margin-left: 20px;
-        }
-        .timeline {
-            background-color: #e9f5ff;
-            border-left: 5px solid #3399ff;
-            padding: 10px;
-            margin: 10px 0;
-        }
-        .note {
-            font-style: italic;
-            color: #555;
-        }
-    </style>
+    <title>FlaskApp</title>
+    <!-- Correctly link the CSS file from the static folder -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-<body>
-    <h1>Europa w XVII wieku - III dział</h1>
-
-    <div class="section">
-        <h2>1. Wojna trzydziestoletnia (1618–1648)</h2>
-        <p>Wojna trzydziestoletnia była jednym z największych konfliktów w XVII wieku, trwającym 30 lat. Jej głównymi przyczynami były <span class="important">spory religijne</span> między katolikami a protestantami oraz dążenie państw do hegemonii w Europie.</p>
-        <div class="timeline">
-            <strong>Etapy wojny:</strong>
-            <ul>
-                <li>1618–1625: Etap czeski</li>
-                <li>1625–1629: Etap duński</li>
-                <li>1630–1635: Etap szwedzki</li>
-                <li>1635–1648: Etap francusko-szwedzki</li>
-            </ul>
+<body style="background-color: #221F1F;">
+  <div class='pre-loader'>
+    <img class='loading-gif' alt='loading' src="{{ url_for('static', filename='preload.svg') }}"/>
+</div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for('static', filename='hhlogo.svg') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pricing">Pricing</a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                    Server Status: <span style="color: green; font-weight: 900;">Online</span>
+                </span>
+            </div>
         </div>
-        <p><strong>Skutki wojny:</strong></p>
-        <ul>
-            <li>Ogromne straty ludnościowe i gospodarcze</li>
-            <li>Pokój westfalski (1648) – uznanie niezależności Niderlandów i Szwajcarii</li>
-            <li>Osłabienie pozycji cesarstwa, wzrost znaczenia Francji</li>
-        </ul>
-        <p class="note">Ciekawostka: Wojna trzydziestoletnia była jednym z pierwszych konfliktów o charakterze ogólnoeuropejskim.</p>
+    </nav>
+
+    <!-- Banner Section -->
+    <div class="banner-container">
+        <!-- Banner Image -->
+        <img src="{{ url_for('static', filename='homebanner.svg') }}" alt="Banner" class="banner img-fluid">
+        <!-- Get Hosting Button -->
+        <button onclick="alert('RUNNING')" style="border: none;background: none;">
+            <img src="{{ url_for('static', filename='gethosting.svg') }}" alt="Get Hosting" class="gethosting-button img-fluid">
+        </button>
     </div>
 
-    <div class="section">
-        <h2>2. Absolutyzm w Europie</h2>
-        <p>W XVII wieku dominującą formą rządów w Europie był absolutyzm. Władcy skupiali pełnię władzy w swoich rękach, często twierdząc, że ich rządy są „z woli Boga”.</p>
-        <p><strong>Najważniejsze państwa absolutystyczne:</strong></p>
-        <ul>
-            <li><span class="important">Francja:</span> Ludwik XIV („Król Słońce”) – symbol absolutyzmu, budowa Wersalu</li>
-            <li>Hiszpania: Filip IV – początek osłabienia pozycji Hiszpanii</li>
-            <li>Rosja: Piotr I Wielki – początki modernizacji Rosji</li>
-        </ul>
-        <p>Absolutyzm wiązał się z rozbudową biurokracji, stałych armii i centralizacją administracji.</p>
+    <!-- Pricing Section -->
+    <div class="pricing-container">
+        <!-- Pricing Banner Image -->
+        <img src="{{ url_for('static', filename='pricing.svg') }}" alt="Pricing" class="pricing img-fluid">
+        <!-- Get Started Button -->
+        <button onclick="alert('RUNNING2')" class="getstarted-btn" style="border: none;background: none;">
+            <img src="{{ url_for('static', filename='getstarted.svg') }}" alt="Get Started" class="getstarted-button img-fluid">
+        </button>
     </div>
 
-    <div class="section">
-        <h2>3. Rewolucja angielska</h2>
-        <p>W XVII wieku w Anglii doszło do rewolucji, która doprowadziła do ograniczenia władzy królewskiej. Konflikt ten rozgrywał się między monarchią a parlamentem.</p>
-        <p><strong>Przebieg wydarzeń:</strong></p>
-        <ul>
-            <li>1642–1651: Wojna domowa między zwolennikami króla Karola I a parlamentem</li>
-            <li>1649: Egzekucja Karola I, Anglia staje się republiką (Cromwell jako lord protektor)</li>
-            <li>1660: Restauracja monarchii – Karol II na tronie</li>
-        </ul>
-        <p class="note">Efektem rewolucji angielskiej było ograniczenie władzy królewskiej i wprowadzenie monarchii parlamentarnej.</p>
+    <!-- Why Section -->
+    <div class="why-container">
+        <img src="{{ url_for('static', filename='why.svg') }}" alt="Why Us" class="why img-fluid" style="width: 100%;">
     </div>
 
-    <div class="section">
-        <h2>4. Kultura i nauka w XVII wieku</h2>
-        <p>XVII wiek był czasem rozkwitu kultury i nauki. Był to okres baroku – stylu pełnego przepychu, dynamiki i emocji.</p>
-        <p><strong>Cechy baroku:</strong></p>
-        <ul>
-            <li>Monumentalność i bogactwo zdobień</li>
-            <li>Nacisk na religijność i uczucia</li>
-            <li>W literaturze – tematyka przemijania, marności życia (motyw „vanitas”)</li>
-        </ul>
-        <p><strong>Rozwój nauki:</strong></p>
-        <ul>
-            <li>Isaac Newton – prawo grawitacji</li>
-            <li>Galileusz – rozwój astronomii</li>
-            <li>Kartezjusz – rozwój filozofii racjonalistycznej</li>
-        </ul>
-        <p class="note">Barok rozwijał się także w architekturze – przykłady to Bazylika św. Piotra w Rzymie i Wersal.</p>
-    </div>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script type='text/javascript'>
+      window.addEventListener('load', function () {
+          document.querySelector('.pre-loader').className += ' hidden';
+      });
+    </script>
+  </body>
 </html>
